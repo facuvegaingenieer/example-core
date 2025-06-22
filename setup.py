@@ -5,9 +5,8 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='core_extract_and_load',
-    version='0.1.0',
-    package_dir={'': 'src'},
-    packages=find_packages(where='src'),
+    version='0.1.2',
+    packages=find_packages(),
     description='Biblioteca para extraer datos via API y cargarlos',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -26,7 +25,6 @@ setup(
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
-        'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
     python_requires='>=3.6',
