@@ -3,4 +3,5 @@ core_extract_and_load.egg-info
 .env
 venv
 demo.db
+**__pycache__
 

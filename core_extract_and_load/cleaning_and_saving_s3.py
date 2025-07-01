@@ -22,6 +22,7 @@ def obtener_ultima_fila_sqlite(db_path: str, tabla: str) -> pd.DataFrame:
 
 def descargar_csv_de_s3(client, bucket_name: str, s3_filename: str, local_path: str, headers=None) -> bool:
     try:
+        
         client.download_file(bucket_name, s3_filename, local_path)
         print(f"Descargado: s3://{bucket_name}/{s3_filename}")
         return True
@@ -55,10 +56,11 @@ class MainDTO:
 
 def actualizar_csv_s3_con_sqlite(dto: MainDTO) -> None:
     
-    local_csv_path = "/tmp/tmp.csv"
+    local_csv_path = "/tmp/archivo.csv"
     db_path = dto.db_path or DB_PATH
     bucket_name = dto.bucket_name or BUCKET_NAME
     s3_filename = dto.s3_filename or S3_FILENAME
+
 
     client = boto3.client(
         's3',
@@ -66,7 +68,7 @@ def actualizar_csv_s3_con_sqlite(dto: MainDTO) -> None:
         aws_secret_access_key = dto.aws_secret_access_key,
         region_name = dto.region_name or REGION_NAME
     )
-
+    
     nueva_fila = obtener_ultima_fila_sqlite(
         db_path=db_path, 
         tabla="cotizacion"

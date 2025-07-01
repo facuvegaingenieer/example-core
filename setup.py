@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='core_extract_and_load',
-    version='0.1.4',
+    version='1.0.0',
     packages=find_packages(),
     description='Biblioteca para extraer datos via API y cargarlos',
     long_description=long_description,
@@ -30,6 +30,8 @@ setup(
     python_requires='>=3.6',
     install_requires=[
         'requests>=2.25.1',
+        'boto3==1.38.41',
+        'pandas==2.3.0'
     ],
     extras_require={
         'dev': [
