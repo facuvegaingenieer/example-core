@@ -3,6 +3,10 @@ from dataclasses import dataclass
 from typing import Any
 import sqlite3
 
+global GLOBAL_URL, DB_PATH
+GLOBAL_URL: str = "https://api.bluelytics.com.ar/v2/latest"
+DB_PATH: str = "demo.db"
+
 @dataclass(frozen=True, slots=True)
 class ValueDTO:
     value_avg: float
@@ -43,8 +47,8 @@ def clean_data(data: Any) -> ResponseDTO:
         last_update=data["last_update"]
     )    
 
-def save_data(data: ResponseDTO):
-    conn = sqlite3.connect("data.db")
+def save_data(data: ResponseDTO, db_path:str):
+    conn = sqlite3.connect(db_path)
 
     cursor = conn.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS cotizacion (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, value_avg REAL, value_sell REAL, value_buy REAL, last_update TEXT)")
@@ -72,15 +76,22 @@ def fetch_data(url: str) -> ResponseDTO:
     else:
         raise Exception("Error al consultar la api")
 
-def extract_and_load():
+def extract_and_load(db_path: str):
 
-    url: str = "https://api.bluelytics.com.ar/v2/latest"
+    data: ResponseDTO = fetch_data(GLOBAL_URL)
 
-    data: ResponseDTO = fetch_data(url)
+    save_data(data, db_path)
 
-    save_data(data)
-
+## Develop
 if __name__ == "__main__":
-    extract_and_load()
+    import os
+    from dotenv import load_dotenv
+
+    load_dotenv()  
+
+    DB_PATH = os.getenv('DB_PATH')
+    extract_and_load(DB_PATH)
+
+    print("programa finalizado")
 
 
